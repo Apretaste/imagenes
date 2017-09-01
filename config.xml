@@ -1,0 +1,18 @@
+<service>
+	<serviceName>imagenes</serviceName>
+	<serviceDescription>Busca por ti las imagenes disponibles en google relacionadas con las palabras proporcionadas por ti.</serviceDescription>
+	<creatorEmail>jaikerkings@yahoo.es</creatorEmail>
+	<!--serviceCategory: negocios,ocio,academico,social,comunicaciones,informativo,adulto,otros-->
+	<serviceCategory>informativo</serviceCategory>
+	<serviceUsage>
+		<![CDATA[
+			Escriba un nuevo email a {APRETASTE_EMAIL} y en el asunto ponga la palabra IMAGENES seguida de las palabras relacionadas con las imagenes que desea ver.
+
+			Por ejemplo:
+			Para: {APRETASTE_EMAIL}
+			Asunto: IMAGENES casa
+
+			Recibir&aacute; un email con las imagenes realicionadas con la palabra casa.
+		]]>
+	</serviceUsage>
+</service>
