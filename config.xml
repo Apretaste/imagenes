@@ -1,8 +1,7 @@
 <service>
 	<serviceName>imagenes</serviceName>
-	<serviceDescription>Busca por ti las imagenes disponibles en google relacionadas con las palabras proporcionadas por ti.</serviceDescription>
+	<serviceDescription>Busca en la web las seis imagenes mas acordes con el texto que escribas, y las muestra con la mayor compresion y calidad posible</serviceDescription>
 	<creatorEmail>jaikerkings@yahoo.es</creatorEmail>
-	<!--serviceCategory: negocios,ocio,academico,social,comunicaciones,informativo,adulto,otros-->
 	<serviceCategory>informativo</serviceCategory>
 	<serviceUsage>
 		<![CDATA[
