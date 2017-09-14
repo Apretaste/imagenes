@@ -71,6 +71,10 @@ class Imagenes extends Service
 			if(empty($result->items[$i])) break;
 			else $item = $result->items[$i];
 
+			// clean string after ?
+			$pos = strpos($item->link, "?");
+			if($pos) $item->link = substr($item->link, 0, $pos);
+
 			$image = array(
 				"thumbnailLink" => $item->image->thumbnailLink,
 				"thumbnailWidth" => $item->image->thumbnailWidth,
@@ -105,7 +109,7 @@ class Imagenes extends Service
 		// create the response
 		$response = new Response();
 		$response->setResponseSubject("Imagenes relacionadas con $query");
-		$response->createFromTemplate("showResults.tpl", $responseContent, $images);
+		$response->createFromTemplate("results.tpl", $responseContent, $images);
 		return $response;
 	}
 
