@@ -7,7 +7,7 @@
 	<tr bgcolor="{cycle values="#f2f2f2,white"}">
 		<td>{img src="{$image.name}" alt="{$image.link}" width="{$image.thumbnailWidth}" height="{$image.thumbnailHeight}"}</td>
 		<td>{$image.title|truncate:100:"... "}</td>
-		<td>-{$image.link}-{button href="WEB {$image.link}" caption="Ver grande" size="small" color="grey"}</td>
+		<td>{button href="WEB {$image.link}" caption="Ver grande" size="small" color="grey"}</td>
 	</tr>
 	{/foreach}
 </table>
