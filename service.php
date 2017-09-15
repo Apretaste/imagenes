@@ -2,9 +2,6 @@
 
 class Imagenes extends Service
 {
-	private $googleApisApiKey = "AIzaSyCoQLBgC1_Fzd9SMFS0dqiGYy2UoMp7A8U";
-	private $googleCustomSearchId = "004652491246805662376:hjkfnl1btua";
-
 	/**
 	 * Function executed when the service is called
 	 *
@@ -48,7 +45,13 @@ class Imagenes extends Service
 		if(file_exists($cacheFile)){
 			$response = file_get_contents($cacheFile);
 		}else{
-			$uri = 'https://www.googleapis.com/customsearch/v1?key='.$this->googleApisApiKey.'&cx='.$this->googleCustomSearchId.'&q='.urlencode($query).'&searchType=image&alt=json&start='.$start; //&imgSize=small&fileType=jpg
+			// get the Google parms
+			$di = \Phalcon\DI\FactoryDefault::getDefault();
+			$ApiKey = $di->get('config')['google']['apikey'];
+			$SearchId = $di->get('config')['google']['searchid'];
+			$encodedQuery = urlencode($query);
+
+			$uri = "https://www.googleapis.com/customsearch/v1?key=$ApiKey&cx=$SearchId&q=$encodedQuery&searchType=image&alt=json&start=$start&imgSize=small&fileType=jpg"; //
 			$response = file_get_contents($uri);
 			file_put_contents($cacheFile, $response); // save cache file
 		}
