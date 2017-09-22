@@ -52,7 +52,7 @@ class Imagenes extends Service
 			$encodedQuery = urlencode($query);
 
 			$uri = "https://www.googleapis.com/customsearch/v1?key=$ApiKey&cx=$SearchId&q=$encodedQuery&searchType=image&alt=json&start=$start&imgSize=small&fileType=jpg"; //
-			$response = file_get_contents($uri);
+			$response = $this->getUrl($uri);
 			file_put_contents($cacheFile, $response); // save cache file
 		}
 
@@ -128,7 +128,7 @@ class Imagenes extends Service
 
 		if( ! file_exists($imgCacheFile))
 		{
-			$imgSource = $this->file_get_contents_curl($imgSource);
+			$imgSource = $this->getUrl($imgSource);
 			if ($imgSource != false)
 			{
 				if (strtolower($extension) != '.png')
@@ -168,20 +168,42 @@ class Imagenes extends Service
 		return $imgCacheFile;
 	}
 
-	/**
-	 * Get the image
-	 */
-	private function file_get_contents_curl($url)
+	private function getUrl($url, &$info = [])
 	{
+	    $url = str_replace("//", "/", $url);
+	    $url = str_replace("http:/","http://", $url);
+        $url = str_replace("https:/","https://", $url);
+
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_HEADER, 0);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+
 		curl_setopt($ch, CURLOPT_URL, $url);
-		$data = curl_exec($ch);
+
+		$default_headers = [
+			"Cache-Control" => "max-age=0",
+			"Origin" => "{$url}",
+			"User-Agent" => "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36",
+			"Content-Type" => "application/x-www-form-urlencoded"
+		];
+
+		$hhs = [];
+		foreach ($default_headers as $key => $val)
+			$hhs[] = "$key: $val";
+
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $hhs);
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        $html = curl_exec($ch);
+
+		$info = curl_getinfo($ch);
+
+		if ($info['http_code'] == 301)
+			if (isset($info['redirect_url']) && $info['redirect_url'] != $url)
+				return $this->getUrl($info['redirect_url'], $info);
+
 		curl_close($ch);
-		return $data;
+
+		return $html;
 	}
 }
