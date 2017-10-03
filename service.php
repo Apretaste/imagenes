@@ -104,7 +104,7 @@ class Imagenes extends Service
 		$responseContent = array(
 			"searchTerms" => $result->queries->request[0]->searchTerms,
 			"imageLinks" => $imageStructure,
-			"nextPageStart" => $result->queries->nextPage[0]->startIndex,
+			"nextPageStart" => isset($result->queries->nextPage[0]->startIndex) ? $result->queries->nextPage[0]->startIndex : '0',
 			"rowNumbers" => (int) count($imageLinks) / 2,
 			"titulo" => $query
 		);
