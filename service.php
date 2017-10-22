@@ -102,7 +102,7 @@ class Imagenes extends Service
 
 		// create an object to send to the template
 		$responseContent = array(
-			"searchTerms" => isset($result->queries) ? $result->queries->request[0]->searchTerms : [],
+			"searchTerms" => isset($result->queries) ? $result->queries->request[0]->searchTerms : "",
 			"imageLinks" => $imageStructure,
 			"nextPageStart" => isset($result->queries->nextPage[0]->startIndex) ? $result->queries->nextPage[0]->startIndex : '0',
 			"rowNumbers" => (int) count($imageLinks) / 2,
