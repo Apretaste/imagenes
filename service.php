@@ -52,7 +52,16 @@ class Imagenes extends Service
 			$encodedQuery = urlencode($query);
 
 			$uri = "https://www.googleapis.com/customsearch/v1?key=$ApiKey&cx=$SearchId&q=$encodedQuery&searchType=image&alt=json&start=$start&imgSize=small&fileType=jpg"; //
-			$response = $this->getUrl($uri);
+			try{
+				$response = $this->getUrl($uri);
+			}
+			catch(Exception $e){
+				$response = new Response();
+			$response->setResponseSubject("Lo sentimos, se ha excedido el uso diario");
+			$response->createFromText($e->getMessage());
+			return $response;
+			}
+			
 			file_put_contents($cacheFile, $response); // save cache file
 		}
 
@@ -201,7 +210,9 @@ class Imagenes extends Service
 		if ($info['http_code'] == 301)
 			if (isset($info['redirect_url']) && $info['redirect_url'] != $url)
 				return $this->getUrl($info['redirect_url'], $info);
-
+		if($info['http_code']==403){
+			throw new \RuntimeException("La cuota máxima del uso diario del servicio se ha superado. Google nos cobra por cada búsqueda, por tal motivo se han estipulado solo 1000 búsquedas por día. El día de mañana puede hacer uso del servicio nuevamente.");
+		}
 		curl_close($ch);
 
 		return $html;
