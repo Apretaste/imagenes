@@ -5,5 +5,5 @@
 <p style="color:#A03E3B;"><small>IMPORTANTE: Le devolveremos seis im&aacute;genes. Aunque estas vendr&aacute;n comprimidas, descargar im&aacute;genes le gastar&aacute; m&aacute;s saldo que otros servicios.</small></p>
 
 <center>
-	{button caption="Buscar" href="IMAGENES" desc="Escriba una palabra o frase a buscar. Por ejemplo: Arroz Congri" popup="true"}
+	{button caption="Buscar" href="IMAGENES" desc="Escriba una palabra o frase a buscar*" popup="true"}
 </center>
